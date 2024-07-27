@@ -11,8 +11,8 @@ Route::get('/user', function (Request $request) {
 
 
 Route::apiResource('albums', AlbumController::class);
-Route::get('albums/search', [AlbumController::class, 'search']);
-Route::get('albums/{album}/musics', [AlbumController::class, 'musics']);
+Route::post('albums/search', [AlbumController::class, 'search']);
+Route::get('albums/{albumId}/musics', [AlbumController::class, 'musics']);
 
 Route::apiResource('musics', MusicController::class);
 Route::get('musics/search', [MusicController::class, 'search']);
