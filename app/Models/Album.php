@@ -9,7 +9,8 @@ class Album extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'artist', 'genre', 'cover_image'];
+    protected $table = 'albums';
+    protected $fillable = ['title', 'artist', 'genre', 'image_path'];
 
     public function musics()
     {

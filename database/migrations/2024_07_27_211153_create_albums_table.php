@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('artist');
             $table->string('genre')->nullable();
-            $table->string('cover_image')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
 
             $table->index('artist');

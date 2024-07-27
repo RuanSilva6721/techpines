@@ -5,62 +5,53 @@ namespace App\Http\Controllers;
 use App\Models\Music;
 use App\Http\Requests\StoreMusicRequest;
 use App\Http\Requests\UpdateMusicRequest;
+use App\Services\MusicService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class MusicController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    protected $musicService;
+
+    public function __construct(MusicService $musicService)
     {
-        //
+        $this->musicService = $musicService;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function index(): JsonResponse
     {
-        //
+        $musics = $this->musicService->getAllMusics();
+        return response()->json($musics);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreMusicRequest $request)
+    public function show(int $id): JsonResponse
     {
-        //
+        $music = $this->musicService->getMusicById($id);
+        return $music ? response()->json($music) : response()->json(['message' => 'Música não encontrada'], 404);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Music $music)
+    public function search(Request $request): JsonResponse
     {
-        //
+        $name = $request->input('name');
+        $musics = $this->musicService->searchMusicsByName($name);
+        return response()->json($musics);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Music $music)
+    public function store(Request $request): JsonResponse
     {
-        //
+        $music = $this->musicService->createMusic($request->all());
+        return response()->json($music, 201);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateMusicRequest $request, Music $music)
+    public function update(Request $request, int $id): JsonResponse
     {
-        //
+        $music = $this->musicService->updateMusic($id, $request->all());
+        return $music ? response()->json($music) : response()->json(['message' => 'Música não encontrada'], 404);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Music $music)
+    public function destroy(int $id): JsonResponse
     {
-        //
+        $deleted = $this->musicService->deleteMusic($id);
+        return $deleted ? response()->json(null, 204) : response()->json(['message' => 'Música não encontrada'], 404);
     }
 }
