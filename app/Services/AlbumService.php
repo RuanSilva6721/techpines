@@ -36,7 +36,7 @@ class AlbumService
         $validator = Validator::make($data, [
             'title' => 'required|string|max:255',
             'artist' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'genre' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -51,7 +51,7 @@ class AlbumService
         $validator = Validator::make($data, [
             'title' => 'required|string|max:255',
             'artist' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'genre' => 'required|string|max:255',
         ]);
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
